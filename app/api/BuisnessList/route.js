@@ -18,7 +18,6 @@ async function getsample() {
       category: true             // Include the new category field
     },
   });
-
   const getServiceProvider = serviceProviders.map((serviceProvider) => {
     return {
       id: serviceProvider.service_provider_id, // Keeping the id as a number
@@ -31,9 +30,10 @@ async function getsample() {
       images: serviceProvider.images,
       bookings: serviceProvider.bookings,       // You can modify how you want to structure this
       favorites: serviceProvider.favorites,     // You can modify how you want to structure this
-      category: serviceProvider.category?.name  // Assuming category is a JSON object with a 'name' field
+      category: (serviceProvider.category) // Parse the category JSON string into an object
     };
   });
+  
 
   return getServiceProvider;
 }
@@ -42,7 +42,7 @@ async function getsample() {
 export async function GET() {
    
   const sample= await getsample();
-  console.log(sample);
+ 
   
   
     const sampleBuisnessList = [

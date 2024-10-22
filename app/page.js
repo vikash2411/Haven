@@ -29,7 +29,9 @@ export default function Home() {
         'Content-Type':'application/json'
       }
     });
+
     const data = await catagoriesList.json();
+   
     
    
     setCategoryList(data); 
@@ -50,7 +52,8 @@ export default function Home() {
     
    
     const data = await response.json();
-    console.log(data);
+    
+     
     
     setBusinessList(data) 
 

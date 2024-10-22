@@ -1,74 +1,31 @@
 // app/api/categories/route.js
 import { NextResponse } from 'next/server';
+import { prisma } from '../../../lib/prisma';
+
+async function getsample() {
+  const serviceProviders = await prisma.serviceProvider.findMany({
+    select: {
+      service_provider_id: true, // Primary key
+      category: true             // Include only the category field
+    },
+  });
+
+  const categories = serviceProviders.map((serviceProvider) => {
+    return {
+      id: serviceProvider.service_provider_id, // Keeping the id as a number
+      category: serviceProvider.category         // Assuming category is already an object
+    };
+  });
+
+  return categories; // Return only the formatted categories
+}
+
+
 
 export async function GET() {
+  const sampleList1 = await getsample();
+  console.log(sampleList1);
   const sampleList = [
-    {
-      name: "Medical",
-      icon: {
-        url: "@/public/assets/barbar.png"
-      }
-    },
-    {
-      name: "Legal",
-      icon: {
-        url: "@/public/assets/legal.png"
-      }
-    },
-    {
-      name: "Financial",
-      icon: {
-        url: "@/public/assets/legal.png"
-      }
-    },
-    {
-      name: "Counseling",
-      icon: {
-        url: "/icons/counseling-icon.png"
-      }
-    },
-    {
-      name: "Education",
-      icon: {
-        url: "@/public/assets/tutor.png"
-      }
-    },
-    {
-      name: "Employment",
-      icon: {
-        url: "/icons/employment-icon.png"
-      }
-    },
-    {
-      name: "Housing",
-      icon: {
-        url: "/icons/housing-icon.png"
-      }
-    },
-    {
-      name: "Transportation",
-      icon: {
-        url: "/icons/transportation-icon.png"
-      }
-    },
-    {
-      name: "Food",
-      icon: {
-        url: "/icons/food-icon.png"
-      }
-    },
-    {
-      name: "Clothing",
-      icon: {
-        url: "/icons/clothing-icon.png"
-      }
-    },
-    {
-      name: "Utilities",
-      icon: {
-        url: "/icons/utilities-icon.png"
-      }
-    },
     {
       name: "Other",
       icon: {
@@ -77,5 +34,5 @@ export async function GET() {
     }
   ];
 
-  return NextResponse.json(sampleList);
+  return NextResponse.json(sampleList1);
 }
